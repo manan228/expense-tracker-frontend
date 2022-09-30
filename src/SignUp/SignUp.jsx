@@ -1,7 +1,9 @@
 import axios from "axios";
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 
 const SignUp = () => {
+  const [error, setError] = useState(false);
+
   const usernameInputRef = useRef();
   const emailInputRef = useRef();
   const passwordInputRef = useRef();
@@ -20,15 +22,22 @@ const SignUp = () => {
     };
 
     try {
-      const response = await axios.post("abc.com", userObj);
+      const response = await axios.post(
+        "http://localhost:3000/add-user",
+        userObj
+      );
 
-      console.log(response)
+      console.log(response);
     } catch (err) {
-      console.log(err);
+      if (err.response.status === 422) {
+        console.log(`error`);
+        setError(true);
+      }
     }
   };
 
   return (
+    <>
     <form onSubmit={onSignUpFormClickHandler}>
       <div>
         <label>Username: </label>
@@ -43,7 +52,9 @@ const SignUp = () => {
         <input type="password" ref={passwordInputRef} required />
       </div>
       <button type="submit">Sign up</button>
-    </form>
+    </form> 
+    {error ? <div>User Already exist</div> : null}
+    </>
   );
 };
 
