@@ -1,9 +1,11 @@
 import axios from "axios";
 import { useRef, useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 
 const Login = () => {
   const [error, setError] = useState(false);
+
+  const navigate = useNavigate();
 
   const emailInputRef = useRef();
   const passwordInputRef = useRef();
@@ -25,7 +27,10 @@ const Login = () => {
         loginObj
       );
 
-      console.log(response);
+      if (response.data.success) {
+        localStorage.setItem("success", response.data.success);
+        navigate("/expense-form");
+      }
     } catch (err) {
       console.log(err);
       if (err.response.status === 404) {
