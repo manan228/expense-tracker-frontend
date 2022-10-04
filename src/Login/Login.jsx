@@ -27,8 +27,9 @@ const Login = () => {
         loginObj
       );
 
-      if (response.data.success) {
-        localStorage.setItem("success", response.data.success);
+      console.log(response.data)
+      if (response.data.token) {
+        localStorage.setItem("token", response.data.token);
         navigate("/expense-form");
       }
     } catch (err) {

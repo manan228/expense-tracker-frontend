@@ -10,10 +10,14 @@ const ExpenseForm = () => {
   const expenseDescriptionInputRef = useRef();
   const expenseCategoryInputRef = useRef();
 
+  const token = localStorage.getItem("token");
+
   useEffect(() => {
     const getExpenses = async () => {
       try {
-        const response = await axios.get("http://localhost:3000/get-expenses");
+        const response = await axios.get("http://localhost:3000/get-expenses", {
+          headers: { Authorization: token },
+        });
 
         setExpenses(response.data);
       } catch (err) {
@@ -22,7 +26,7 @@ const ExpenseForm = () => {
     };
 
     getExpenses();
-  }, []);
+  }, [token]);
 
   const onExpenseFormSubmitHandler = async (e) => {
     e.preventDefault();
@@ -40,7 +44,8 @@ const ExpenseForm = () => {
     try {
       const response = await axios.post(
         "http://localhost:3000/add-expense",
-        expenseObj
+        expenseObj,
+        { headers: { Authorization: token } }
       );
 
       const { id, amount, description, category } = response.data;
