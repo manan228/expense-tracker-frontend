@@ -4,9 +4,9 @@ import SignUp from "./SignUp/SignUp";
 import Login from "./Login/Login";
 import ExpenseForm from "./Expense/ExpenseForm";
 import PrivateRoute from "./PrivateRoute";
+// import SuccessPayment from "./SuccessPayment";
 
 function App() {
-
   return (
     <div className="App">
       <BrowserRouter>
@@ -14,6 +14,7 @@ function App() {
           <Route path="/" element={<Navigate to="/login" replace />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/login" element={<Login />} />
+          {/* <Route path="/success-payment" element={<SuccessPayment />} /> */}
           <Route
             path="/expense-form"
             element={
