@@ -1,7 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
-import { Navigate } from "react-router-dom";
-import SuccessPayment from "../SuccessPayment";
+import Leaderboard from "../Leaderboard";
 import ExpenseList from "./ExpenseList";
 
 const loadRazorpay = (src) => {
@@ -21,10 +20,8 @@ const loadRazorpay = (src) => {
 
 const ExpenseForm = () => {
   const [expenses, setExpenses] = useState([]);
-  const [premium, setPremium] = useState(false);
+  const [premiumAccount, setPremiumAccount] = useState(false);
 
-  console.log(premium)
-  console.log(expenses);
   const expenseAmountInputRef = useRef();
   const expenseDescriptionInputRef = useRef();
   const expenseCategoryInputRef = useRef();
@@ -39,8 +36,9 @@ const ExpenseForm = () => {
         });
 
         console.log(response);
+        localStorage.setItem("premium", response.data.isPremium);
         setExpenses(response.data.response);
-        setPremium(response.data.isPremium)
+        setPremiumAccount(response.data.isPremium);
       } catch (err) {
         console.log(err);
       }
@@ -57,10 +55,12 @@ const ExpenseForm = () => {
     const expenseCategory = expenseCategoryInputRef.current.value;
 
     const expenseObj = {
-      amount: expenseAmount,
+      amount: Number(expenseAmount),
       description: expenseDescription,
       category: expenseCategory,
     };
+
+    // console.log(typeof expenseObj.amount);
 
     try {
       const response = await axios.post(
@@ -106,7 +106,7 @@ const ExpenseForm = () => {
           );
 
           console.log(response);
-          setPremium(true);
+          setPremiumAccount(true);
           // <SuccessPayment />;
         },
       };
@@ -120,7 +120,7 @@ const ExpenseForm = () => {
   };
 
   return (
-    <div style={{ backgroundColor: premium ? "grey" : null }}>
+    <div style={{ backgroundColor: premiumAccount ? "grey" : null }}>
       <form onSubmit={onExpenseFormSubmitHandler}>
         <div>
           <label>Expense Amount: </label>
@@ -147,6 +147,7 @@ const ExpenseForm = () => {
       </form>
       <button onClick={onBuyPreminumClickHandler}>Buy Preminum</button>
       {expenses.length > 0 && <ExpenseList expenses={expenses} />}
+      {premiumAccount && <Leaderboard data={{token, expenses}} />}
     </div>
   );
 };
