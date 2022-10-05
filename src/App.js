@@ -4,6 +4,7 @@ import SignUp from "./SignUp/SignUp";
 import Login from "./Login/Login";
 import ExpenseForm from "./Expense/ExpenseForm";
 import PrivateRoute from "./PrivateRoute";
+import ForgotPassword from "./ForgotPassword";
 // import SuccessPayment from "./SuccessPayment";
 
 function App() {
@@ -15,6 +16,7 @@ function App() {
           <Route path="/signup" element={<SignUp />} />
           <Route path="/login" element={<Login />} />
           {/* <Route path="/success-payment" element={<SuccessPayment />} /> */}
+          {/* <Route path="/forgot-passowrd" element={<ForgotPassword />} /> */}
           <Route
             path="/expense-form"
             element={

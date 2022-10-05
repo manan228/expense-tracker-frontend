@@ -1,9 +1,11 @@
 import axios from "axios";
 import { useRef, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
+import ForgotPassword from "../ForgotPassword";
 
 const Login = () => {
   const [error, setError] = useState(false);
+  const [forgotPassword, setForgotPassword] = useState(false);
 
   const navigate = useNavigate();
 
@@ -44,21 +46,36 @@ const Login = () => {
     }
   };
 
+  const onForgotPasswordClickHandler = () => {
+    console.log(`forgotpassword clicked`);
+    setForgotPassword(true);
+    // return <ForgotPassword />
+  };
+
   return (
     <>
-      <form onSubmit={onLoginClickHandler}>
+      {forgotPassword ? (
+        <ForgotPassword />
+      ) : (
         <div>
-          <label>Email</label>
-          <input type="email" ref={emailInputRef} required />
+          <form onSubmit={onLoginClickHandler}>
+            <div>
+              <label>Email</label>
+              <input type="email" ref={emailInputRef} required />
+            </div>
+            <div>
+              <label>Password</label>
+              <input type="password" ref={passwordInputRef} required />
+            </div>
+            <button type="submit">Login</button>
+          </form>
+          <NavLink to="/signup">New User? SignUp</NavLink>
+          <button onClick={onForgotPasswordClickHandler}>
+            Forgot Password
+          </button>
+          {error ? <div>{error}</div> : null}
         </div>
-        <div>
-          <label>Password</label>
-          <input type="password" ref={passwordInputRef} required />
-        </div>
-        <button type="submit">Login</button>
-      </form>
-      <NavLink to="/signup">New User? SignUp</NavLink>
-      {error ? <div>{error}</div> : null}
+      )}
     </>
   );
 };
