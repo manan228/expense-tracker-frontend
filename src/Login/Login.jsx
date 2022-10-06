@@ -23,6 +23,7 @@ const Login = () => {
       password,
     };
 
+    console.log(loginObj)
     try {
       const response = await axios.post(
         "http://localhost:3000/login",

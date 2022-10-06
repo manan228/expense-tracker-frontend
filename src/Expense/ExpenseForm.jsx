@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
+import DownloadedFiles from "../DownloadedFiles";
 import ExpenseAnalysis from "../ExpenseAnalysis";
 import Leaderboard from "../Leaderboard";
 import ExpenseList from "./ExpenseList";
@@ -22,12 +23,14 @@ const loadRazorpay = (src) => {
 const ExpenseForm = () => {
   const [expenses, setExpenses] = useState([]);
   const [premiumAccount, setPremiumAccount] = useState(false);
+  const [url, setUrl] = useState("");
 
   const expenseAmountInputRef = useRef();
   const expenseDescriptionInputRef = useRef();
   const expenseCategoryInputRef = useRef();
 
   const token = localStorage.getItem("token");
+  // let url = "";
 
   useEffect(() => {
     const getExpenses = async () => {
@@ -120,10 +123,22 @@ const ExpenseForm = () => {
     }
   };
 
-  const onDownloadExpenseClickHandler = () => {
-    
-    console.log(`download expense clicked`)
-  }
+  const onDownloadExpenseClickHandler = async () => {
+    console.log(`download expense clicked`);
+    console.log(token);
+    try {
+      const response = await axios.get("http://localhost:3000/download", {
+        headers: { Authorization: token },
+      });
+
+      console.log(response.data);
+      setUrl(response.data);
+      window.open(response.data, "_blank");
+      // url = response.data;
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   return (
     <div style={{ backgroundColor: premiumAccount ? "grey" : null }}>
@@ -152,7 +167,12 @@ const ExpenseForm = () => {
         <button type="submit">Add Expense</button>
       </form>
       <button onClick={onBuyPreminumClickHandler}>Buy Preminum</button>
-      <button onClick={onDownloadExpenseClickHandler} disabled={!premiumAccount}>Download Expenses</button>
+      <button
+        onClick={onDownloadExpenseClickHandler}
+        disabled={!premiumAccount}
+      >
+        Download Expenses
+      </button>
       {/* {expenses.length > 0 && <ExpenseList expenses={expenses} />} */}
       {premiumAccount ? (
         <ExpenseAnalysis expenses={expenses} />
@@ -167,6 +187,7 @@ const ExpenseForm = () => {
           )
         : expenses.length > 0 && <ExpenseList expenses={expenses} />} */}
       {/* {premiumAccount ? <div>Hii</div> && <div>Hello</div> : <div>Z</div>} */}
+      {premiumAccount && <DownloadedFiles data={{ token, url }} />}
     </div>
   );
 };
