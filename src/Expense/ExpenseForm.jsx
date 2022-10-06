@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
+import ExpenseAnalysis from "../ExpenseAnalysis";
 import Leaderboard from "../Leaderboard";
 import ExpenseList from "./ExpenseList";
 
@@ -119,6 +120,11 @@ const ExpenseForm = () => {
     }
   };
 
+  const onDownloadExpenseClickHandler = () => {
+    
+    console.log(`download expense clicked`)
+  }
+
   return (
     <div style={{ backgroundColor: premiumAccount ? "grey" : null }}>
       <form onSubmit={onExpenseFormSubmitHandler}>
@@ -146,8 +152,21 @@ const ExpenseForm = () => {
         <button type="submit">Add Expense</button>
       </form>
       <button onClick={onBuyPreminumClickHandler}>Buy Preminum</button>
-      {expenses.length > 0 && <ExpenseList expenses={expenses} />}
-      {premiumAccount && <Leaderboard data={{token, expenses}} />}
+      <button onClick={onDownloadExpenseClickHandler} disabled={!premiumAccount}>Download Expenses</button>
+      {/* {expenses.length > 0 && <ExpenseList expenses={expenses} />} */}
+      {premiumAccount ? (
+        <ExpenseAnalysis expenses={expenses} />
+      ) : (
+        expenses.length > 0 && <ExpenseList expenses={expenses} />
+      )}
+      {premiumAccount && <Leaderboard data={{ token, expenses }} />}
+
+      {/* {premiumAccount
+        ? <ExpenseAnalysis expenses={expenses} /> && (
+            <Leaderboard data={{ token, expenses }} />
+          )
+        : expenses.length > 0 && <ExpenseList expenses={expenses} />} */}
+      {/* {premiumAccount ? <div>Hii</div> && <div>Hello</div> : <div>Z</div>} */}
     </div>
   );
 };

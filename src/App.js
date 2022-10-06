@@ -4,7 +4,7 @@ import SignUp from "./SignUp/SignUp";
 import Login from "./Login/Login";
 import ExpenseForm from "./Expense/ExpenseForm";
 import PrivateRoute from "./PrivateRoute";
-import ForgotPassword from "./ForgotPassword";
+// import ForgotPassword from "./ForgotPassword";
 // import SuccessPayment from "./SuccessPayment";
 
 function App() {

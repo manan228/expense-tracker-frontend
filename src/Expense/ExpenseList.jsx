@@ -3,6 +3,7 @@ import axios from "axios";
 
 const ExpenseList = ({expenses}) => {
 
+  console.log(expenses)
   // console.log(retrievedExpenses)
   // const [expenses, setExpenses] = useState(retrievedExpenses);
   // console.log(expenses);
