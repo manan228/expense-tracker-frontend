@@ -25,30 +25,34 @@ const loadRazorpay = (src) => {
 let paginationData = {};
 
 const ExpenseForm = () => {
-  console.log(`inside expense Form`)
+  console.log(`inside expense Form`);
   const [expenses, setExpenses] = useState([]);
   const [premiumAccount, setPremiumAccount] = useState(false);
   const [url, setUrl] = useState("");
+  const [rowsPerPage, setRowsPerPage] = useState(5);
 
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const page = queryParams.get("page");
 
-  console.log(page)
+  console.log(page);
 
   const expenseAmountInputRef = useRef();
   const expenseDescriptionInputRef = useRef();
   const expenseCategoryInputRef = useRef();
+  const rowsPerPageRef = useRef();
+  // console.log(rowsPerPageRef.current.value)
 
   const token = localStorage.getItem("token");
 
   useEffect(() => {
     const getExpenses = async () => {
+      console.log(rowsPerPage);
       try {
         const response = await axios.get(
           `http://localhost:3000/get-expenses/?page=${page}`,
           {
-            headers: { Authorization: token },
+            headers: { Authorization: token, itemsPerPage: rowsPerPage },
           }
         );
 
@@ -64,7 +68,7 @@ const ExpenseForm = () => {
     };
 
     getExpenses();
-  }, [token, page]);
+  }, [token, page, rowsPerPage]);
 
   const onExpenseFormSubmitHandler = async (e) => {
     e.preventDefault();
@@ -152,6 +156,12 @@ const ExpenseForm = () => {
     }
   };
 
+  const onRowPerPageChange = () => {
+    console.log(`called rows`);
+    console.log(rowsPerPageRef.current.value);
+    setRowsPerPage(rowsPerPageRef.current.value);
+  };
+
   return (
     <div style={{ backgroundColor: premiumAccount ? "grey" : null }}>
       <form onSubmit={onExpenseFormSubmitHandler}>
@@ -185,6 +195,12 @@ const ExpenseForm = () => {
       >
         Download Expenses
       </button>
+      <label>Rows per page</label>
+      <select ref={rowsPerPageRef} onChange={onRowPerPageChange}>
+        <option>5</option>
+        <option>10</option>
+        <option>15</option>
+      </select>
       {premiumAccount ? (
         <ExpenseAnalysis expenses={expenses} />
       ) : (
