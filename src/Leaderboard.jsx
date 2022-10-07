@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 
 const Leaderboard = ({ data: { token, expenses } }) => {
+  console.log(`inside Leaderboard`);
   const [users, setUsers] = useState([]);
   const [userExpenses, setUserExpenses] = useState([]);
 
@@ -11,6 +12,8 @@ const Leaderboard = ({ data: { token, expenses } }) => {
         const response = await axios.get("http://localhost:3000/all-users", {
           headers: { Authorization: token },
         });
+
+        console.log(`inside useEffect leaderboard`)
 
         const users = response.data;
         users.sort((a, b) => b.totalExpense - a.totalExpense);

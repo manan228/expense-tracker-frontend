@@ -1,14 +1,15 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ExpenseList from "./Expense/ExpenseList";
 
 const ExpenseAnalysis = ({ expenses: propsExpenses }) => {
+  console.log(`inside expenseAnalysis`, propsExpenses);
   const [sortExpenses, setSortExpenses] = useState(propsExpenses);
-
-  // console.log(propsExpenses)
-  // const [expenses, setExpenses] = useState(propsExpenses)
-  console.log(sortExpenses)
-
+  console.log(sortExpenses);
   const systemDate = new Date();
+
+  useEffect(() => {
+    setSortExpenses(propsExpenses);
+  }, [propsExpenses]);
 
   const onDailyClickHandler = () => {
     console.log(`daily click handler`);
@@ -37,6 +38,7 @@ const ExpenseAnalysis = ({ expenses: propsExpenses }) => {
     console.log(MonthlyExpenses);
     setSortExpenses(MonthlyExpenses);
   };
+
   return (
     <div>
       <button onClick={onDailyClickHandler}>Daily</button>

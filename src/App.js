@@ -4,6 +4,8 @@ import SignUp from "./SignUp/SignUp";
 import Login from "./Login/Login";
 import ExpenseForm from "./Expense/ExpenseForm";
 import PrivateRoute from "./PrivateRoute";
+import '@coreui/coreui/dist/css/coreui.min.css'
+import 'bootstrap/dist/css/bootstrap.min.css'
 // import ForgotPassword from "./ForgotPassword";
 // import SuccessPayment from "./SuccessPayment";
 

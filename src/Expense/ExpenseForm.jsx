@@ -1,8 +1,10 @@
 import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
+import { useLocation } from "react-router-dom";
 import DownloadedFiles from "../DownloadedFiles";
 import ExpenseAnalysis from "../ExpenseAnalysis";
 import Leaderboard from "../Leaderboard";
+import Pagination from "../Pagination";
 import ExpenseList from "./ExpenseList";
 
 const loadRazorpay = (src) => {
@@ -20,27 +22,40 @@ const loadRazorpay = (src) => {
   });
 };
 
+let paginationData = {};
+
 const ExpenseForm = () => {
+  console.log(`inside expense Form`)
   const [expenses, setExpenses] = useState([]);
   const [premiumAccount, setPremiumAccount] = useState(false);
   const [url, setUrl] = useState("");
+
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const page = queryParams.get("page");
+
+  console.log(page)
 
   const expenseAmountInputRef = useRef();
   const expenseDescriptionInputRef = useRef();
   const expenseCategoryInputRef = useRef();
 
   const token = localStorage.getItem("token");
-  // let url = "";
 
   useEffect(() => {
     const getExpenses = async () => {
       try {
-        const response = await axios.get("http://localhost:3000/get-expenses", {
-          headers: { Authorization: token },
-        });
+        const response = await axios.get(
+          `http://localhost:3000/get-expenses/?page=${page}`,
+          {
+            headers: { Authorization: token },
+          }
+        );
 
         console.log(response);
         localStorage.setItem("premium", response.data.isPremium);
+
+        paginationData = response.data.paginationData;
         setExpenses(response.data.response);
         setPremiumAccount(response.data.isPremium);
       } catch (err) {
@@ -49,7 +64,7 @@ const ExpenseForm = () => {
     };
 
     getExpenses();
-  }, [token]);
+  }, [token, page]);
 
   const onExpenseFormSubmitHandler = async (e) => {
     e.preventDefault();
@@ -63,8 +78,6 @@ const ExpenseForm = () => {
       description: expenseDescription,
       category: expenseCategory,
     };
-
-    // console.log(typeof expenseObj.amount);
 
     try {
       const response = await axios.post(
@@ -134,7 +147,6 @@ const ExpenseForm = () => {
       console.log(response.data);
       setUrl(response.data);
       window.open(response.data, "_blank");
-      // url = response.data;
     } catch (err) {
       console.log(err);
     }
@@ -173,20 +185,13 @@ const ExpenseForm = () => {
       >
         Download Expenses
       </button>
-      {/* {expenses.length > 0 && <ExpenseList expenses={expenses} />} */}
       {premiumAccount ? (
         <ExpenseAnalysis expenses={expenses} />
       ) : (
         expenses.length > 0 && <ExpenseList expenses={expenses} />
       )}
+      <Pagination paginationData={paginationData} />
       {premiumAccount && <Leaderboard data={{ token, expenses }} />}
-
-      {/* {premiumAccount
-        ? <ExpenseAnalysis expenses={expenses} /> && (
-            <Leaderboard data={{ token, expenses }} />
-          )
-        : expenses.length > 0 && <ExpenseList expenses={expenses} />} */}
-      {/* {premiumAccount ? <div>Hii</div> && <div>Hello</div> : <div>Z</div>} */}
       {premiumAccount && <DownloadedFiles data={{ token, url }} />}
     </div>
   );

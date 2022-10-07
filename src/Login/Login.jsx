@@ -33,7 +33,7 @@ const Login = () => {
       console.log(response.data.response);
       if (response.data.token) {
         localStorage.setItem("token", response.data.token);
-        navigate("/expense-form");
+        navigate("/expense-form/?page=1");
       }
     } catch (err) {
       console.log(err);

@@ -1,12 +1,8 @@
 import axios from "axios";
 // import React, { useState } from "react";
 
-const ExpenseList = ({expenses}) => {
-
-  console.log(expenses)
-  // console.log(retrievedExpenses)
-  // const [expenses, setExpenses] = useState(retrievedExpenses);
-  // console.log(expenses);
+const ExpenseList = ({ expenses }) => {
+  console.log(expenses);
 
   const onExpenseDeleteClickHandler = async ({ id: expenseId }) => {
     console.log(expenseId);
@@ -22,12 +18,11 @@ const ExpenseList = ({expenses}) => {
       );
 
       if (response.status === 200) {
-
         const newExpenses = expenses.filter(
           (expense) => expense.id !== expenseId
         );
 
-        console.log(newExpenses)
+        console.log(newExpenses);
         // setExpenses(newExpenses)
       }
     } catch (err) {
@@ -37,7 +32,7 @@ const ExpenseList = ({expenses}) => {
 
   return (
     <>
-    {console.log('hiii')}
+      {console.log("hiii")}
       {expenses.map((expense) => {
         return (
           <div key={expense.id}>
