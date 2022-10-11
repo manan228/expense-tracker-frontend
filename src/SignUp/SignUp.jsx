@@ -23,7 +23,7 @@ const SignUp = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:3000/add-user",
+        "http://34.227.32.148:3000/add-user",
         userObj
       );
 

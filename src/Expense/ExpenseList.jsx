@@ -1,21 +1,25 @@
 import axios from "axios";
+import { useEffect, useState } from "react";
 // import React, { useState } from "react";
 
-const ExpenseList = ({ expenses }) => {
-  console.log(expenses);
+const ExpenseList = ({ expenses: propExpenses }) => {
+  console.log(propExpenses);
+
+  const [expenses, setExpenses] = useState(propExpenses);
+
+  useEffect(() => {
+    setExpenses(propExpenses)
+  }, [propExpenses])
 
   const onExpenseDeleteClickHandler = async ({ id: expenseId }) => {
     console.log(expenseId);
 
     try {
-      // const response = await axios.delete(
-      //   "http://localhost:3000/delete-expense",
-      //   {"id": 17}
-      // );
-
       const response = await axios.delete(
-        `http://localhost:3000/delete-expense/${expenseId}`
+        `http://34.227.32.148:3000/delete-expense/${expenseId}`
       );
+
+      console.log(response);
 
       if (response.status === 200) {
         const newExpenses = expenses.filter(
@@ -23,7 +27,7 @@ const ExpenseList = ({ expenses }) => {
         );
 
         console.log(newExpenses);
-        // setExpenses(newExpenses)
+        setExpenses(newExpenses)
       }
     } catch (err) {
       console.log(err);

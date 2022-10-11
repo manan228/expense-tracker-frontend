@@ -9,7 +9,7 @@ const ForgotPassword = () => {
 
     try {
 
-        const response = await axios.post("http://localhost:3000/password/forgotpassword")
+        const response = await axios.post("http://34.227.32.148:3000/password/forgotpassword")
 
         console.log(response)
     } catch (err) {

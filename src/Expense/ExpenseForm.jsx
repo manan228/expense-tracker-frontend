@@ -40,17 +40,17 @@ const ExpenseForm = () => {
   const expenseAmountInputRef = useRef();
   const expenseDescriptionInputRef = useRef();
   const expenseCategoryInputRef = useRef();
-  const rowsPerPageRef = useRef();
+  // const rowsPerPageRef = useRef();
   // console.log(rowsPerPageRef.current.value)
 
   const token = localStorage.getItem("token");
 
   useEffect(() => {
     const getExpenses = async () => {
-      console.log(rowsPerPage);
+      console.log(`use effect rows per page`);
       try {
         const response = await axios.get(
-          `http://localhost:3000/get-expenses/?page=${page}`,
+          `http://34.227.32.148:3000/get-expenses/?page=${page}`,
           {
             headers: { Authorization: token, itemsPerPage: rowsPerPage },
           }
@@ -85,22 +85,33 @@ const ExpenseForm = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:3000/add-expense",
+        "http://34.227.32.148:3000/add-expense",
         expenseObj,
         { headers: { Authorization: token } }
       );
 
-      const { id, amount, description, category } = response.data;
+      // const { id, amount, description, category } = response.data;
 
-      setExpenses([...expenses, { id, amount, description, category }]);
+      const response1 = await axios.get(
+        `http://34.227.32.148:3000/get-expenses/?page=${page}`,
+        {
+          headers: { Authorization: token, itemsPerPage: rowsPerPage },
+        }
+      );
+
+      setExpenses(response1.data.response);
     } catch (err) {
       console.log(err);
     }
   };
 
+  // const finalExpenses = (id, amount, description, category) => {
+  //   setExpenses([...expenses, { id, amount, description, category }]);
+  // };
+
   const onBuyPreminumClickHandler = async () => {
     try {
-      const response = await axios.post("http://localhost:3000/buy-premium");
+      const response = await axios.post("http://34.227.32.148:3000/buy-premium");
 
       console.log(response);
 
@@ -122,7 +133,7 @@ const ExpenseForm = () => {
 
           const orderId = successResponse.razorpay_order_id;
           const response = await axios.get(
-            `http://localhost:3000/set-premium/${orderId}`,
+            `http://34.227.32.148:3000/set-premium/${orderId}`,
             { headers: { Authorization: token } }
           );
 
@@ -144,7 +155,7 @@ const ExpenseForm = () => {
     console.log(`download expense clicked`);
     console.log(token);
     try {
-      const response = await axios.get("http://localhost:3000/download", {
+      const response = await axios.get("http://34.227.32.148:3000/download", {
         headers: { Authorization: token },
       });
 
@@ -156,10 +167,10 @@ const ExpenseForm = () => {
     }
   };
 
-  const onRowPerPageChange = () => {
-    console.log(`called rows`);
-    console.log(rowsPerPageRef.current.value);
-    setRowsPerPage(rowsPerPageRef.current.value);
+  const onRowPerPageChange = (e) => {
+    console.log(`called rows ${e.target.value}`);
+    // console.log(rowsPerPageRef.current.value);
+    setRowsPerPage(e.target.value);
   };
 
   return (
@@ -196,7 +207,7 @@ const ExpenseForm = () => {
         Download Expenses
       </button>
       <label>Rows per page</label>
-      <select ref={rowsPerPageRef} onChange={onRowPerPageChange}>
+      <select onChange={onRowPerPageChange}>
         <option>5</option>
         <option>10</option>
         <option>15</option>

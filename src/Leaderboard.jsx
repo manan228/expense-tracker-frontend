@@ -9,7 +9,7 @@ const Leaderboard = ({ data: { token, expenses } }) => {
   useEffect(() => {
     try {
       const getAllUsers = async () => {
-        const response = await axios.get("http://localhost:3000/all-users", {
+        const response = await axios.get("http://34.227.32.148:3000/all-users", {
           headers: { Authorization: token },
         });
 
@@ -32,7 +32,7 @@ const Leaderboard = ({ data: { token, expenses } }) => {
 
     try {
       const { data } = await axios.get(
-        `http://localhost:3000/get-expenses/${userEmail}`
+        `http://34.227.32.148:3000/get-expenses/${userEmail}`
       );
 
       console.log(data);
