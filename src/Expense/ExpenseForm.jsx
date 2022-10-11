@@ -50,7 +50,7 @@ const ExpenseForm = () => {
       console.log(`use effect rows per page`);
       try {
         const response = await axios.get(
-          `http://34.227.32.148:3000/get-expenses/?page=${page}`,
+          `https://cors-everywhere.herokuapp.com/http://34.227.32.148:3000/get-expenses/?page=${page}`,
           {
             headers: { Authorization: token, itemsPerPage: rowsPerPage },
           }
@@ -85,15 +85,16 @@ const ExpenseForm = () => {
 
     try {
       const response = await axios.post(
-        "http://34.227.32.148:3000/add-expense",
+        "https://cors-everywhere.herokuapp.com/http://34.227.32.148:3000/add-expense",
         expenseObj,
         { headers: { Authorization: token } }
       );
 
+      console.log(response)
       // const { id, amount, description, category } = response.data;
 
       const response1 = await axios.get(
-        `http://34.227.32.148:3000/get-expenses/?page=${page}`,
+        `https://cors-everywhere.herokuapp.com/http://34.227.32.148:3000/get-expenses/?page=${page}`,
         {
           headers: { Authorization: token, itemsPerPage: rowsPerPage },
         }
@@ -111,7 +112,7 @@ const ExpenseForm = () => {
 
   const onBuyPreminumClickHandler = async () => {
     try {
-      const response = await axios.post("http://34.227.32.148:3000/buy-premium");
+      const response = await axios.post("https://cors-everywhere.herokuapp.com/http://34.227.32.148:3000/buy-premium");
 
       console.log(response);
 
@@ -133,7 +134,7 @@ const ExpenseForm = () => {
 
           const orderId = successResponse.razorpay_order_id;
           const response = await axios.get(
-            `http://34.227.32.148:3000/set-premium/${orderId}`,
+            `https://cors-everywhere.herokuapp.com/http://34.227.32.148:3000/set-premium/${orderId}`,
             { headers: { Authorization: token } }
           );
 
@@ -155,7 +156,7 @@ const ExpenseForm = () => {
     console.log(`download expense clicked`);
     console.log(token);
     try {
-      const response = await axios.get("http://34.227.32.148:3000/download", {
+      const response = await axios.get("https://cors-everywhere.herokuapp.com/http://34.227.32.148:3000/download", {
         headers: { Authorization: token },
       });
 

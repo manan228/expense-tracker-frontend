@@ -16,7 +16,7 @@ const ExpenseList = ({ expenses: propExpenses }) => {
 
     try {
       const response = await axios.delete(
-        `http://34.227.32.148:3000/delete-expense/${expenseId}`
+        `https://cors-everywhere.herokuapp.com/http://34.227.32.148:3000/delete-expense/${expenseId}`
       );
 
       console.log(response);
