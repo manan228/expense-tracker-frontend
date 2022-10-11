@@ -7,7 +7,7 @@ console.log(url)
   useEffect(() => {
     const getDownloadedFiles = async () => {
       try {
-        const response = await axios.get("http://34.227.32.148:3000/getFilesURL", {
+        const response = await axios.get("https://cors-everywhere.herokuapp.com/http://52.54.29.221:3000/getFilesURL", {
           headers: { Authorization: token },
         });
 

@@ -26,7 +26,7 @@ const Login = () => {
     console.log(loginObj)
     try {
       const response = await axios.post(
-        "http://34.227.32.148:3000/login",
+        "https://cors-everywhere.herokuapp.com/http://52.54.29.221:3000/login",
         loginObj
       );
 
