@@ -23,7 +23,7 @@ const SignUp = () => {
 
     try {
       const response = await axios.post(
-        "https://cors-everywhere.herokuapp.com/http://34.227.32.148:3000/add-user",
+        "https://cors-everywhere.herokuapp.com/http://52.54.29.221:3000/add-user",
         userObj
       );
 
